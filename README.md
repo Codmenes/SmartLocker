@@ -1,232 +1,251 @@
-# SmartLocker
-## 🔐 Armário Inteligente com ESP32
+# 🔐 SmartLocker — Sistema Inteligente de Controle de Acesso
 
-Projeto de um armário inteligente baseado em ESP32, desenvolvido para controlar o acesso por RFID, monitorar o estado da porta e controlar eletronicamente a trava por meio de um servo motor.
-O sistema possui também uma interface web hospedada diretamente pelo ESP32, permitindo acompanhar o estado do armário pelo navegador de um celular ou computador conectado à mesma rede Wi-Fi.
-O projeto está sendo desenvolvido de forma modular, permitindo adicionar novas funcionalidades posteriormente sem precisar desmontar a estrutura eletrônica já montada.
+Sistema de controle de acesso para armários desenvolvido com **ESP32**, utilizando autenticação RFID, monitoramento físico da porta e controle remoto por meio de uma interface web.
 
-## 🚀 Funcionalidades atuais
+O projeto integra hardware e software em uma solução ciberfísica, na qual sensores monitoram o ambiente físico, o ESP32 processa as informações e os atuadores executam ações de controle.
 
-- 📡 Leitura de cartões e tags RFID utilizando o RC522
-- 🔐 Controle da trava através de um servo motor MG90S
-- 🚪 Detecção de porta aberta/fechada utilizando um reed switch
-- 🔊 Avisos sonoros através de um buzzer ativo
-- 💡 Indicação de estados através de LEDs
-- 🌐 Servidor web executado diretamente no ESP32
-- 📱 Interface acessível por celular ou computador
-- 🔄 Atualização do estado do armário na interface web
-- 🔓 Destravamento através de RFID
-- 🔒 Retravamento automático após o fechamento da porta
-- 📋 Exibição do último UID RFID detectado
-- 📝 Registro do último evento ocorrido no sistema
+Desenvolvido como projeto acadêmico de Engenharia de Software, com foco em sistemas embarcados, comunicação cliente-servidor e Internet das Coisas (IoT).
 
-## 🧰 Componentes
-- ESP32 DevKit V1
-- RFID RC522
-- Servo MG90S
-- Reed Switch
-- Módulo Buzzer Ativo
-- LEDs Variados
-- Resistores Variados
-- Protoboard 830 pontos
-- Jumpers	Diversos
+---
 
-## 🔌 Pinagem
-### RFID RC522
-- SDA / SS	GPIO 21
-- SCK	GPIO 18
-- MOSI	GPIO 23
-- MISO	GPIO 19
-- IRQ	Não conectado
-- GND	GND
-- RST	GPIO 22
-- 3.3V	3V3
+## 📌 Funcionalidades
 
-### Outros componentes
-- Servo MG90S	GPIO 13
-- Reed Switch	GPIO 27
-- Buzzer — I/O	GPIO 26
-- LED verde	GPIO 25
-- LED vermelho	GPIO 33
-- LED auxiliar	GPIO 32
+### 🔑 Controle de acesso
+- Autenticação por cartões e tags RFID utilizando o módulo RC522.
+- Identificação de usuários e administradores por meio de UIDs cadastrados.
+- Controle de acesso com diferentes permissões.
+- Identificação e rejeição de tags não autorizadas.
 
-O RC522 é alimentado com 3,3 V.
+### 🚪 Monitoramento e segurança
+- Monitoramento do estado da porta por meio de um sensor magnético Reed Switch.
+- Controle de travamento e destravamento utilizando servo motor.
+- Detecção de abertura indevida do armário.
+- Acionamento de alarme sonoro e visual em situações de violação.
+- Destravamento da trava em caso de violação, mantendo o alarme ativo até o silenciamento.
+- Retravamento automático após o encerramento da situação de alarme e fechamento da porta.
 
-## 🌐 Interface Web
+### 🌐 Interface web
+- Servidor HTTP hospedado diretamente no ESP32.
+- Acesso por dispositivos conectados à mesma rede Wi-Fi.
+- Página de autenticação para usuários e administradores.
+- Consulta remota do estado da porta, da trava e do alarme.
+- Destravamento remoto do armário.
+- Silenciamento remoto do alarme.
+- Interface administrativa com informações de conexão e histórico de eventos.
 
-O ESP32 funciona como um pequeno servidor web.
-Após conectar-se à rede Wi-Fi, ele informa seu endereço IP. Esse endereço pode ser acessado pelo navegador:
-**http://IP_DO_ESP32**
+### 📋 Monitoramento e registros
+- Registro de eventos do sistema.
+- Classificação dos registros por níveis:
+  - `INFO` — Informações gerais.
+  - `AVISO` — Situações que exigem atenção.
+  - `ERRO` — Falhas identificadas.
+- Armazenamento persistente dos registros utilizando Preferences (NVS).
+- Registro de data e hora por meio de sincronização NTP, com alternativa de referência temporal baseada no tempo de funcionamento do ESP32.
+- Exibição do endereço IP, endereço MAC e estado da conexão Wi-Fi.
 
-A interface apresenta informações como:
-- Estado da porta
-- Estado da trava
-- Status do RFID
-- Último UID detectado
-- Último evento do sistema
-- Status do ESP32 e do servidor web
+### 📡 Conectividade
+- Comunicação Wi-Fi em modo Station (STA).
+- ESP32 operando como servidor HTTP.
+- Reconexão automática após perda de conexão Wi-Fi.
+- Registro de eventos de desconexão e reconexão.
+- Funcionamento local dos sensores e atuadores mesmo durante a indisponibilidade da rede.
 
-## 🔄 Funcionamento
+---
 
-O fluxo atual do sistema é:
+## 🧰 Tecnologias e componentes
 
-        ┌──────────────┐
-        │  Cartão RFID │
-        └──────┬───────┘
-               │
-               ▼
-        ┌──────────────┐
-        │    RC522     │
-        └──────┬───────┘
-               │
-               ▼
-        ┌──────────────┐
-        │     ESP32    │
-        └──────┬───────┘
-               │
-        ┌──────┴───────┐
-        │              │
-        ▼              ▼
-     Servo           Buzzer
-        │
-        ▼
-      Trava
-        │
-        ▼
-      Porta
-        │
-        ▼
-    Reed Switch
-        └──────► ESP32
+### Hardware
 
+| Componente | Função |
+|---|---|
+| ESP32 | Unidade principal de processamento e servidor web |
+| RC522 | Leitura de cartões e tags RFID |
+| Servo motor | Travamento e destravamento do armário |
+| Reed Switch | Detecção de abertura e fechamento da porta |
+| Buzzer | Alertas sonoros |
+| LED verde | Indicação visual de estado |
+| LED vermelho | Indicação visual de estado e segurança |
+| LED amarelo | Indicação de acesso não autorizado |
 
-Quando uma tag RFID é detectada, o ESP32 aciona o servo e destrava o armário.
+### Software e bibliotecas
 
-Depois que a porta é aberta e posteriormente fechada, o reed switch informa o novo estado ao ESP32. Após um pequeno intervalo, o servo retorna à posição de travamento.
+- **Arduino IDE** — Desenvolvimento e gravação do firmware.
+- **C/C++** — Linguagem utilizada no firmware.
+- **WiFi.h** — Conectividade Wi-Fi do ESP32.
+- **WebServer.h** — Implementação do servidor HTTP.
+- **SPI.h** — Comunicação SPI com o leitor RFID.
+- **MFRC522.h** — Controle do módulo RC522.
+- **ESP32Servo.h** — Controle do servo motor.
+- **Preferences.h** — Armazenamento persistente na memória NVS.
+- **LittleFS** — Armazenamento dos arquivos da interface web.
 
-## 🔊 Buzzer
+---
 
-O buzzer não permanece ligado durante o funcionamento normal.
+## 🔌 Ligações dos componentes
 
-Ele é acionado somente em eventos específicos.
+A tabela apresenta a distribuição dos pinos utilizada no projeto.
 
-Comportamento planejado:
+| Componente | Pino ESP32 |
+|---|---:|
+| RC522 — SDA / SS | GPIO 21 |
+| RC522 — RST | GPIO 22 |
+| RC522 — SCK | GPIO 18 |
+| RC522 — MISO | GPIO 19 |
+| RC522 — MOSI | GPIO 23 |
+| Servo motor | GPIO 13 |
+| Reed Switch | GPIO 27 |
+| Buzzer | GPIO 26 |
+| LED verde | GPIO 25 |
+| LED vermelho | GPIO 33 |
+| LED amarelo | GPIO 32 |
 
-#### Evento ->	Sinal
-- Inicialização ->	Silencioso
-- Wi-Fi conectado ->	Silencioso
-- Porta aberta ->	Silencioso
-- Porta fechada ->	Silencioso
-- Acesso autorizado ->	1 bip
-- Armário trancado ->	2 bips
-- Acesso negado ->	3 bips
+**Observações:**
+- O Reed Switch utiliza configuração `INPUT_PULLUP`.
+- O buzzer utilizado é um módulo de três pinos, com acionamento em nível LOW.
+- O servo motor representa o mecanismo físico de travamento do armário.
+- Verifique a alimentação adequada dos módulos e do servo motor antes de realizar a montagem.
 
-## 💻 Tecnologias
+---
 
-- ESP32
-- Arduino IDE
-- C++
-- Wi-Fi
-- HTTP / Web Server
-- SPI
-- RFID / MFRC522
-- Servo motor
+## 🏗️ Arquitetura do sistema
 
-## 📚 Bibliotecas
+O SmartLocker utiliza uma arquitetura cliente-servidor, na qual o ESP32 atua como servidor e os dispositivos conectados à mesma rede Wi-Fi podem acessar a interface web.
 
-O projeto utiliza:
+O funcionamento pode ser dividido em três partes:
 
-MFRC522
+**1. Camada física**
 
-ESP32Servo
+Responsável pela leitura das tags RFID, detecção da porta e execução das ações físicas por meio do servo motor, LEDs e buzzer.
 
-As bibliotecas podem ser instaladas pelo Library Manager da Arduino IDE.
+**2. Processamento e controle**
 
-## 🛠️ Instalação
-1. Preparar a Arduino IDE
-Instale o suporte para placas ESP32 através do Board Manager da Arduino IDE.
-Selecione:
+O ESP32 processa as informações recebidas dos sensores, verifica as permissões de acesso, controla os atuadores e registra os eventos na memória NVS.
 
-NodeMCU-32S
+**3. Comunicação e interface**
 
-2. Instalar as bibliotecas
+O servidor HTTP disponibiliza as páginas web e permite que usuários autenticados consultem o estado do armário e executem operações remotamente.
 
-No Library Manager, instale:
+### Fluxo simplificado
 
-- MFRC522
-- ESP32Servo
+```text
+          DISPOSITIVO CLIENTE
+             (Navegador)
+                  |
+                  | Wi-Fi / HTTP
+                  |
+             +---------+
+             |  ESP32  |
+             | Servidor|
+             +---------+
+                  |
+       +----------+----------+
+       |          |          |
+     RC522    Reed Switch   NVS
+       |          |          |
+       +----------+----------+
+                  |
+          Processamento
+                  |
+          +-------+-------+
+          |       |       |
+        Servo   LEDs   Buzzer
+```
 
-3. Configurar o Wi-Fi
+---
 
-No código, informe as credenciais da sua rede:
+## ⚙️ Instalação e configuração
 
-const char* WIFI_SSID = "NOME_DA_SUA_REDE";
+### 1. Requisitos
 
-const char* WIFI_PASSWORD = "SENHA_DA_SUA_REDE";
+- Arduino IDE instalada.
+- Placa ESP32 configurada na Arduino IDE.
+- Módulo ESP32.
+- Componentes físicos descritos neste README.
+- Bibliotecas necessárias instaladas.
+- Dispositivo conectado à mesma rede Wi-Fi do ESP32.
 
-4. Fazer o upload
+### 2. Configuração do firmware
 
-Conecte o ESP32 ao computador, selecione a porta correspondente e faça o upload do programa.
+Abra o código-fonte do projeto na Arduino IDE e configure as credenciais da rede Wi-Fi de acordo com sua instalação.
 
-Após a inicialização, o ESP32 exibirá no Monitor Serial o endereço IP obtido:
+As credenciais de acesso de usuário e administrador também devem ser configuradas no firmware.
 
-WiFi conectado!
+**Importante:** não publique senhas reais, credenciais pessoais ou informações privadas no repositório.
 
-IP: 192.168.1.XX
+### 3. Configuração do LittleFS
 
-Servidor Web iniciado!
+Os arquivos da interface web devem estar disponíveis no sistema de arquivos LittleFS do ESP32.
 
-Acesse esse endereço pelo navegador para abrir o painel.
+Arquivos utilizados:
 
-## ⚠️ Alimentação
+```text
+data/
+├── login.html
+├── user.html
+├── admin.html
+└── style.css
+```
 
-O RC522 deve ser alimentado com 3,3 V.
+Faça o upload dos arquivos para o LittleFS utilizando o procedimento ou ferramenta compatível com a versão do ambiente Arduino configurado.
 
-O servo MG90S pode exigir uma corrente considerável, especialmente durante movimentos ou quando submetido a carga. Em uma montagem definitiva, recomenda-se utilizar uma fonte adequada para o servo e manter o GND da fonte do servo conectado ao GND do ESP32.
+### 4. Gravação do firmware
 
-A alimentação utilizada na protoboard durante os testes não necessariamente será a melhor solução para a versão final do armário.
+1. Conecte o ESP32 ao computador.
+2. Selecione a placa e a porta serial corretas.
+3. Verifique se as bibliotecas necessárias estão instaladas.
+4. Compile e grave o firmware.
+5. Abra o Monitor Serial para acompanhar a inicialização e os eventos do sistema.
 
-🔮 Próximos passos
+### 5. Acesso à interface
 
-O projeto ainda está em desenvolvimento. Algumas funcionalidades planejadas são:
+Após conectar-se à rede Wi-Fi, consulte o endereço IP apresentado pelo ESP32 no Monitor Serial ou na interface administrativa.
 
-- Cadastro de cartões RFID autorizados
-- Identificação do usuário através do UID
-- Sistema de acesso autorizado/negado
-- Histórico de acessos
-- Data e hora dos eventos
-- Interface web mais completa
-- Controle manual da trava pelo painel
-- Configuração dos ângulos do servo
-- Detecção de tentativa de acesso não autorizado
-- Armazenamento permanente dos usuários
-- Banco de dados
-- Acesso remoto pela internet
-- Sistema de autenticação para o painel
-- Melhorias na segurança física e eletrônica
+No navegador, acesse:
 
-## 🎯 Objetivo do projeto
+```text
+http://IP_DO_ESP32
+```
 
-O objetivo é desenvolver um armário inteligente de baixo custo, utilizando componentes acessíveis e um ESP32 como unidade central de controle.
+O sistema disponibiliza a página de login para autenticação.
 
-Além de servir como um sistema funcional de controle de acesso, o projeto também tem como objetivo explorar conceitos de:
+---
 
-- Sistemas embarcados
-- Internet das Coisas (IoT)
-- RFID
-- Automação
-- Comunicação SPI
-- Servidores web embarcados
-- Controle de motores
-- Sensores digitais
-- Desenvolvimento de interfaces web
+## 🔒 Segurança
 
-## 📌 Status
+O sistema possui autenticação para acesso às páginas protegidas e controle de sessões para diferenciar usuários e administradores.
 
-🟢 Em desenvolvimento
+Algumas considerações importantes:
 
-A versão atual já possui:
+- Utilize credenciais próprias e senhas fortes.
+- Não compartilhe credenciais de acesso no repositório.
+- O servidor utiliza HTTP, sem criptografia TLS.
+- O projeto foi desenvolvido para utilização em uma rede local controlada.
+- Não é recomendado expor diretamente o servidor à internet sem implementar mecanismos adicionais de segurança.
 
-RFID + ESP32 + servo + reed switch + buzzer + LEDs + interface web funcionando.
+---
 
-Novas funcionalidades serão adicionadas progressivamente ao projeto.
+## 🎯 Objetivos acadêmicos
+
+O desenvolvimento do SmartLocker permite aplicar conceitos relacionados a:
+
+- Sistemas ciberfísicos.
+- Sistemas embarcados.
+- Internet das Coisas (IoT).
+- Comunicação cliente-servidor.
+- Redes de computadores.
+- Protocolos de comunicação TCP/IP.
+- Sensores e atuadores.
+- Armazenamento persistente de dados.
+- Desenvolvimento de interfaces web.
+- Segurança e controle de acesso.
+
+---
+
+## 🚀 Possíveis melhorias futuras
+
+- Implementação de comunicação HTTPS.
+- Atualização dos estados da interface sem recarregar a página.
+- Gerenciamento de usuários e tags pela interface administrativa.
+- Melhorias no sistema de notificações.
+- Expansão do histórico de eventos.
+- Monitoramento remoto por uma aplicação externa.
