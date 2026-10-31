@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="refresh" content="3">
+    <title>SmartLocker - Administrador</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <main class="wrap">
+        <h1>SmartLocker - Administrador</h1>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Porta</h2>
+                <div class="value {{PORTA_CLASSE}}">{{PORTA}}</div>
+            </div>
+
+            <div class="card">
+                <h2>Trava</h2>
+                <div class="value {{TRAVA_CLASSE}}">{{TRAVA}}</div>
+            </div>
+
+            <div class="card">
+                <h2>Alarme</h2>
+                <div class="value {{ALARME_CLASSE}}">{{ALARME}}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Conectividade</h2>
+            <p>
+                <b>Wi-Fi:</b>
+                <span class="value {{WIFI_STATUS_CLASSE}}">
+                    {{WIFI_STATUS}}
+                </span>
+            </p>
+
+            <p><b>Endereço IP:</b> {{IP_LOCAL}}</p>
+            <p><b>Endereço MAC:</b> {{MAC_ADDRESS}}</p>
+            <p><b>Porta do servidor HTTP:</b> {{HTTP_PORT}}</p>
+        </div>
+
+        <div class="card">
+            <h2>Controles administrativos</h2>
+
+            <form action="/unlock" method="POST">
+                <button type="submit">Destravar remotamente</button>
+            </form>
+
+            {{BOTAO_SILENCIAR}}
+
+            <p><b>Último UID:</b> {{ULTIMO_UID}}</p>
+            <p><b>Último evento:</b> {{ULTIMO_EVENTO}}</p>
+        </div>
+
+        <div class="card">
+            <h2>Histórico de eventos (NVS)</h2>
+
+            <p class="muted">
+                Níveis: INFO (informação), AVISO (atenção) e ERRO (falha).
+            </p>
+
+            {{LOGS}}
+
+            <p class="muted">
+                Exibindo até {{MAX_LOGS}} eventos recentes.
+            </p>
+        </div>
+
+        <div class="card">
+            <form action="/logout" method="POST">
+                <button class="danger" type="submit">Sair</button>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>

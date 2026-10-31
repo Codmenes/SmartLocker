@@ -1,0 +1,144 @@
+* {
+    box-sizing: border-box
+}
+
+body {
+    margin: 0;
+    background: #0f172a;
+    color: #e5e7eb;
+    font-family: Arial, sans-serif
+}
+
+.wrap {
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 18px
+}
+
+.card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 20px;
+    margin: 14px 0
+}
+
+h1,
+h2 {
+    margin-top: 0
+}
+
+label {
+    display: block;
+    margin: 12px 0 5px
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: white
+}
+
+button,
+.btn {
+    display: inline-block;
+    border: 0;
+    border-radius: 8px;
+    padding: 11px 15px;
+    margin: 6px 4px 0 0;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    cursor: pointer
+}
+
+.danger {
+    background: #b91c1c
+}
+
+.muted {
+    color: #94a3b8
+}
+
+.ok {
+    color: #4ade80
+}
+
+.warn {
+    color: #facc15
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px
+}
+
+.value {
+    font-size: 1.2rem;
+    font-weight: bold
+}
+
+.log {
+    padding: 9px 0;
+    border-bottom: 1px solid #334155;
+    overflow-wrap: anywhere
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse
+}
+
+td,
+th {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #334155;
+    vertical-align: top
+}
+
+form {
+    margin: 8px 0
+}
+
+a {
+    color: #93c5fd
+}
+
+.nivel {
+    display: inline-block;
+    min-width: 58px;
+    margin-right: 6px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-size: .78rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.nivel.info {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.nivel.aviso {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.nivel.erro {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.value.ok {
+    color: #4ade80;
+}
+
+.value.warn {
+    color: #facc15;
+}

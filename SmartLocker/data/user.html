@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="refresh" content="3">
+    <title>SmartLocker - Usuário</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <main class="wrap">
+        <h1>SmartLocker - Usuário</h1>
+        <div class="grid">
+            <div class="card">
+                <h2>Porta</h2>
+                <div class="value {{PORTA_CLASSE}}">{{PORTA}}</div>
+            </div>
+            <div class="card">
+                <h2>Trava</h2>
+                <div class="value {{TRAVA_CLASSE}}">{{TRAVA}}</div>
+            </div>
+            <div class="card">
+                <h2>Alarme</h2>
+                <div class="value {{ALARME_CLASSE}}">{{ALARME}}</div>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Controles</h2>
+            <form action="/unlock" method="POST"><button type="submit">Destravar remotamente</button></form>
+            {{BOTAO_SILENCIAR}}<p class="muted">A trava só será acionada automaticamente quando a porta estiver fechada.
+            </p>
+        </div>
+        <div class="card">
+            <form action="/logout" method="POST"><button class="danger" type="submit">Sair</button></form>
+        </div>
+    </main>
+</body>
+
+</html>
